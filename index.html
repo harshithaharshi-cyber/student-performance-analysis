@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTrack | Student Performance Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="EduTrack home">
+        <span class="brand-icon">🎓</span>
+        <span><strong>EduTrack</strong><small>Student Performance Analysis</small></span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <button class="nav-link active" data-view="dashboard"><span>⌂</span> Dashboard</button>
+        <button class="nav-link" data-view="students"><span>♙</span> Students</button>
+        <button class="nav-link" data-view="performance"><span>▥</span> Performance</button>
+        <button class="nav-link" data-view="reports"><span>▤</span> Reports</button>
+        <button class="nav-link" data-view="settings"><span>⚙</span> Settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="avatar">A</div><div><strong>Admin</strong><small>Administrator</small></div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+        <label class="search-box"><span>⌕</span><input id="globalSearch" type="search" placeholder="Search students..." aria-label="Search students"></label>
+        <div class="top-actions"><button class="icon-button" id="notifyBtn" aria-label="Notifications">♧<i></i></button><div class="top-user"><span class="avatar small">A</span><span>Admin</span><span>⌄</span></div></div>
+      </header>
+
+      <section class="content">
+        <div class="page-heading">
+          <div><p class="eyebrow">ACADEMIC YEAR 2024–2025</p><h1 id="pageTitle">Welcome, Admin!</h1><p class="subtitle" id="pageSubtitle">Here's an overview of student performance and key insights.</p></div>
+          <label class="semester-select">▦ <select id="semesterSelect" aria-label="Select semester"><option value="current">2024 - 2025 (Current Semester)</option><option value="previous">2023 - 2024 (Previous Semester)</option></select></label>
+        </div>
+
+        <div class="notice" id="notice" role="status" hidden></div>
+
+        <section class="stats-grid" id="statsGrid">
+          <article class="stat-card blue"><div class="stat-icon">👥</div><div><p>Total Students</p><h2 id="totalStudents">120</h2><small class="positive">↑ 5%</small><small class="muted"> vs. last semester</small></div></article>
+          <article class="stat-card green"><div class="stat-icon">🎓</div><div><p>Average GPA</p><h2 id="avgGpa">8.2</h2><small class="positive">↑ 0.3</small><small class="muted"> vs. last semester</small></div></article>
+          <article class="stat-card purple"><div class="stat-icon">🏆</div><div><p>Top Performer</p><h2 class="top-score">98.5%</h2><small>Riya Sharma</small></div></article>
+          <article class="stat-card orange"><div class="stat-icon">⚠</div><div><p>Students at Risk</p><h2 id="atRisk">8</h2><small class="negative">↑ 2</small><small class="muted"> vs. last semester</small></div></article>
+        </section>
+
+        <section class="charts-grid">
+          <article class="panel performance-panel">
+            <div class="panel-heading"><div><h2>Performance Overview</h2><p>Average marks across subjects</p></div><button class="more-btn" title="Chart info" id="chartInfo">•••</button></div>
+            <div class="chart-wrap"><canvas id="performanceChart" aria-label="Bar chart comparing class averages and top performers" role="img"></canvas></div>
+            <div class="legend"><span><i class="dot blue-dot"></i> Class Average</span><span><i class="dot green-dot"></i> Top Performers</span></div>
+          </article>
+          <article class="panel grade-panel">
+            <div class="panel-heading"><div><h2>Grade Distribution</h2><p>Overall grade distribution of students</p></div></div>
+            <div class="grade-content"><div class="donut" id="gradeDonut"><div class="donut-center"><strong>120</strong><span>Students</span></div></div>
+              <div class="grade-legend" id="gradeLegend"></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="bottom-grid">
+          <article class="panel table-panel">
+            <div class="panel-heading"><div><h2>Top Performers</h2><p>Students with the highest average marks</p></div><button class="text-button" id="viewAll">View all</button></div>
+            <div class="table-scroll"><table><thead><tr><th>Rank</th><th>Name</th><th>Class</th><th>Average Marks</th><th>Grade</th></tr></thead><tbody id="topStudents"></tbody></table></div>
+          </article>
+          <article class="panel activity-panel">
+            <div class="panel-heading"><div><h2>Recent Activity</h2><p>Latest updates from the system</p></div><button class="text-button" id="clearActivity">Clear</button></div>
+            <div class="activity-list" id="activityList"></div>
+          </article>
+        </section>
+
+        <section class="panel students-panel" id="studentsPanel" hidden>
+          <div class="panel-heading"><div><h2>Student Directory</h2><p>Search, review, and add sample student records</p></div><button class="primary-btn" id="addStudentBtn">+ Add student</button></div>
+          <div class="table-scroll"><table><thead><tr><th>Name</th><th>Class</th><th>Average Marks</th><th>Grade</th><th>Status</th></tr></thead><tbody id="allStudents"></tbody></table></div>
+        </section>
+
+        <section class="panel simple-panel" id="simplePanel" hidden>
+          <h2 id="simpleTitle">Reports</h2><p id="simpleDescription"></p>
+          <div id="simpleContent"></div>
+        </section>
+
+        <footer>© 2025 EduTrack · Student Performance Analysis <span>Demo data for project use</span></footer>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="studentDialog">
+    <form method="dialog" id="studentForm">
+      <div class="dialog-heading"><h2>Add student</h2><button class="close-btn" value="cancel" aria-label="Close">×</button></div>
+      <label>Full name<input name="name" required placeholder="e.g. Aanya Rao"></label>
+      <label>Class / Department<input name="className" required placeholder="e.g. B.Tech CSE"></label>
+      <label>Average marks (0–100)<input name="marks" type="number" min="0" max="100" required placeholder="85"></label>
+      <div class="dialog-actions"><button class="secondary-btn" value="cancel">Cancel</button><button class="primary-btn" id="saveStudent" value="default">Add student</button></div>
+    </form>
+  </dialog>
+  <script src="script.js"></script>
+</body>
+</html>
